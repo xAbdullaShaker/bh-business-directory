@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
 
 // RENDER NEW BUSINESS FORM
 router.get('/new', (req, res) => {
-    res.render('businesses/new.ejs')
+    res.render('./businesses/new.ejs')
 })
 
 // POST FORM DATA TO DATABASE
