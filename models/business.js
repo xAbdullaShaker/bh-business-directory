@@ -1,31 +1,19 @@
-const express = require('express')
-const router = express.Router()
-const Business = require('../models/business')
-// everything in this file has /businesses front
+const mongoose = require('mongoose')
 
-// INDEX OF ALL BUSINESSES
-router.get('/', async (req, res) => {
-    const allBusinesses = await Business.find()
-    console.log('allBusinesses: ', allBusinesses)
-    res.render('businesses/index.ejs', { allBusinesses: allBusinesses })
-})
+const businessSchema = new mongoose.Schema(
+    {
+        name: String,
+        category: String,
+        description: String,
+        location: String,
+        phoneNumber: String,
+        website: String,
+        isVerified: {
+            type: Boolean,
+            default: false
+        }
+    }, { timestamps: true }
+)
 
-// RENDER NEW BUSINESS FORM
-router.get('/new', (req, res) => {
-    res.render('businesses/new.ejs')
-})
-
-// POST FORM DATA TO DATABASE
-router.post('/', async (req, res) => {
-    if (req.body.isVerified === 'on') {
-        req.body.isVerified = true
-    } else {
-        req.body.isVerified = false
-    }
-    console.log(req.body)
-    await Business.create(req.body)
-    res.redirect('/businesses/')
-})
-
-
-module.exports = router
+const Business = mongoose.model('Business', businessSchema)
+module.exports = Business

@@ -4,7 +4,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
 const path = require('path')
-app.set('view engine', 'ejs')
+const methodOverride = require('method-override')
+const morgan = require('morgan')
 
 // CONTROLLERS
 const businessController = require('./controllers/businessController')
@@ -18,6 +19,8 @@ mongoose.connection.on('connected', () => {
 // MIDDLEWARE
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: false }))
+app.use(methodOverride('_method'))
+app.use(morgan('dev'))
 
 // GET / (home)
 app.get('/', (req, res) => {
